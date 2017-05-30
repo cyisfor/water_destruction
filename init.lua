@@ -12,21 +12,20 @@ local function drop(p)
         end
 end
 
-local abm = {
+local neighbors = {"group:plant","group:flora","group:torch"}
+core.register_abm({
 			label = "Destroy things",
 			nodenames = {"group:water"},
-			neighbors = {"group:plant","group:flora","group:torch"},
+			neighbors = neighbors,
 			catch_up = false,
 			interval = 3,
 			chance = 1,
 			action = function(pos, node, count, count_wider)
 				 local minp = {x=pos.x-1,y=pos.y-1,z=pos.z-1}
 				 local maxp = {x=pos.x+1,y=pos.y+1,z=pos.z+1}
-				 local ns = core.find_nodes_in_area(minp,maxp,abm.neighbors)
+				 local ns = core.find_nodes_in_area(minp,maxp,neighbors)
 				 for _,pos in ipairs(ns) do
 						drop(pos)
 				 end
 			end						
-}
-
-core.register_abm(abm)
+})
